@@ -212,18 +212,12 @@ public class FrameInputPeminjaman extends javax.swing.JFrame {
 
         jPanel2.setBackground(javax.swing.UIManager.getDefaults().getColor("Actions.Blue"));
 
-        cbPeminjam.setBackground(new java.awt.Color(255, 255, 0));
-
-        cbBarang.setBackground(new java.awt.Color(255, 255, 0));
-
-        txtJumlah.setBackground(new java.awt.Color(255, 255, 0));
         txtJumlah.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 txtJumlahKeyTyped(evt);
             }
         });
 
-        cbStatus.setBackground(new java.awt.Color(255, 255, 0));
         cbStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Dipinjam", "Dikembalikan", " " }));
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -285,10 +279,6 @@ public class FrameInputPeminjaman extends javax.swing.JFrame {
         txtIDPeminjaman.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         txtIDPeminjaman.setForeground(javax.swing.UIManager.getDefaults().getColor("Actions.Blue"));
         txtIDPeminjaman.setText("Id Peminjaman");
-
-        txtTanggalPinjam.setBackground(new java.awt.Color(255, 255, 0));
-
-        txtTanggalKembali.setBackground(new java.awt.Color(255, 255, 0));
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
