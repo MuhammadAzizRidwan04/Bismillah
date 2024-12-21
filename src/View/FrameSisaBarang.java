@@ -38,7 +38,7 @@ public class FrameSisaBarang extends javax.swing.JFrame {
         // Iterasi data dan tambahkan ke TextArea
         StringBuilder laporan = new StringBuilder(); // Untuk menyusun teks laporan
         laporan.append("Nama Barang\tTotal Barang\tSedang Dipinjam      Sisa Barang\n");
-        laporan.append("____________________________________________________________\n");
+        laporan.append("_____________________________________________________________________\n");
         
         while (rs.next()) {
             String namaBarang = rs.getString("nama_barang");
