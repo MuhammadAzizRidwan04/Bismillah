@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import javax.swing.JLabel;
 
+
 public class FrameSisaBarang extends javax.swing.JFrame {
 
     public FrameSisaBarang() {
