@@ -9,7 +9,7 @@ import java.sql.SQLException;
  * @author M. Aziz Ridwan
  */
 public class Koneksi {
-///
+////
     private Connection konekSQL;
     private String host = "localhost";
     private String db = "inventarizm";
