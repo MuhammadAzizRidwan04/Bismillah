@@ -227,6 +227,8 @@ public class FramePeminjaman extends javax.swing.JPanel {
                 IPB.btnTambah.setVisible(false);
                 IPB.lblTanggalKembali.setVisible(false);
                 IPB.txtTanggalKembali.setVisible(false);
+                IPB.cbStatus.removeAllItems();
+                IPB.cbStatus.addItem("Dikembalikan");
                 IPB.setVisible(true);
 
             }
