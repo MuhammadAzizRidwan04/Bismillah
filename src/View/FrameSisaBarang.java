@@ -28,6 +28,8 @@ public class FrameSisaBarang extends javax.swing.JFrame {
                 barang b
             LEFT JOIN 
                 peminjaman p ON b.id_barang = p.id_barang AND p.status = 'Dipinjam'
+            WHERE 
+                b.jenis = 'Boleh Dipinjam' -- Filter barang yang jenisnya Boleh Dipinjam
             GROUP BY 
                 b.id_barang, b.nama_barang, b.jumlah
         """;
@@ -63,6 +65,7 @@ public class FrameSisaBarang extends javax.swing.JFrame {
 
 
 
+
     // Komponen GUI lainnya
     private javax.swing.JPanel panelLaporanBarang;
 
@@ -76,6 +79,7 @@ public class FrameSisaBarang extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Sisa Barang");
 
+        txtLaporanBarang.setEditable(false);
         txtLaporanBarang.setBackground(new java.awt.Color(204, 204, 255));
         txtLaporanBarang.setColumns(20);
         txtLaporanBarang.setRows(5);
