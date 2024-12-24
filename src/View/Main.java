@@ -9,6 +9,7 @@ import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.swing.Timer;
+
 public class Main extends javax.swing.JFrame {
 
     private int xPos; // Posisi X label
@@ -20,10 +21,11 @@ public class Main extends javax.swing.JFrame {
         setupTimer();
         updateDateTime();
     }
+
     private void updateDateTime() {
         // Membuat format tanggal dan waktu
         SimpleDateFormat formatter = new SimpleDateFormat("EEEE, dd MMMM yyyy HH:mm:ss");
-        
+
         // Timer untuk memperbarui label setiap detik
         Timer timer = new Timer(1000, e -> {
             // Mendapatkan waktu sekarang
@@ -35,37 +37,36 @@ public class Main extends javax.swing.JFrame {
     }
 
     private void setupTimer() {
-    // Timer untuk menggerakkan label
-    timer = new Timer(10, new ActionListener() {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            xPos -= 2; // Gerakkan label ke kiri
-            if (xPos + labelNama.getWidth() < 0) { // Jika label keluar dari layar di sebelah kiri
-                xPos = getWidth(); // Reset ke posisi di sebelah kanan layar
+        // Timer untuk menggerakkan label
+        timer = new Timer(10, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                xPos -= 2; // Gerakkan label ke kiri
+                if (xPos + labelNama.getWidth() < 0) { // Jika label keluar dari layar di sebelah kiri
+                    xPos = getWidth(); // Reset ke posisi di sebelah kanan layar
+                }
+                labelNama.setBounds(xPos, labelNama.getY(), labelNama.getWidth(), labelNama.getHeight());
             }
-            labelNama.setBounds(xPos, labelNama.getY(), labelNama.getWidth(), labelNama.getHeight());
-        }
-    });
-    timer.start(); // Mulai timer
+        });
+        timer.start(); // Mulai timer
 
-    Timer colorTimer = new Timer(500, new ActionListener() {
-        private boolean isYellow = false; // Status warna
+        Timer colorTimer = new Timer(500, new ActionListener() {
+            private boolean isYellow = false; // Status warna
 
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            if (isYellow) {
-                labelNama.setForeground(Color.WHITE); // Kembali ke putih
-                labelLogo.setForeground(Color.WHITE); // Kembali ke putih
-            } else {
-                labelNama.setForeground(Color.YELLOW); // Ubah menjadi kuning
-                labelLogo.setForeground(Color.YELLOW); // Ubah menjadi kuning
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (isYellow) {
+                    labelNama.setForeground(Color.WHITE); // Kembali ke putih
+                    labelLogo.setForeground(Color.WHITE); // Kembali ke putih
+                } else {
+                    labelNama.setForeground(Color.YELLOW); // Ubah menjadi kuning
+                    labelLogo.setForeground(Color.YELLOW); // Ubah menjadi kuning
+                }
+                isYellow = !isYellow; // Ganti status warna
             }
-            isYellow = !isYellow; // Ganti status warna
-        }
-    });
-    colorTimer.start(); // Mulai timer warna
-}
-    
+        });
+        colorTimer.start(); // Mulai timer warna
+    }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -97,11 +98,13 @@ public class Main extends javax.swing.JFrame {
         jLabel12 = new javax.swing.JLabel();
         bKeluar = new javax.swing.JLabel();
         labelWaktu = new javax.swing.JLabel();
+        pDashboard = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
+        bDashboard = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         labelNama = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         pConten = new javax.swing.JPanel();
-        jLabel13 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Aplikasi Inventaris ITM");
@@ -152,9 +155,9 @@ public class Main extends javax.swing.JFrame {
             pVendorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pVendorLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(pVendorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(bVendor)
-                    .addComponent(jLabel5))
+                .addGroup(pVendorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel5)
+                    .addComponent(bVendor))
                 .addContainerGap(18, Short.MAX_VALUE))
         );
 
@@ -404,9 +407,50 @@ public class Main extends javax.swing.JFrame {
                 .addContainerGap(20, Short.MAX_VALUE))
         );
 
-        labelWaktu.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        labelWaktu.setFont(new java.awt.Font("Segoe UI", 0, 11)); // NOI18N
         labelWaktu.setForeground(new java.awt.Color(255, 255, 255));
         labelWaktu.setText("jLabel2");
+
+        pDashboard.setBackground(new java.awt.Color(0, 51, 153));
+        pDashboard.setPreferredSize(new java.awt.Dimension(126, 58));
+
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/dashboard.png"))); // NOI18N
+
+        bDashboard.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        bDashboard.setForeground(new java.awt.Color(255, 255, 255));
+        bDashboard.setText("Dashboard");
+        bDashboard.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                bDashboardMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                bDashboardMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                bDashboardMouseExited(evt);
+            }
+        });
+
+        javax.swing.GroupLayout pDashboardLayout = new javax.swing.GroupLayout(pDashboard);
+        pDashboard.setLayout(pDashboardLayout);
+        pDashboardLayout.setHorizontalGroup(
+            pDashboardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pDashboardLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel2)
+                .addGap(18, 18, 18)
+                .addComponent(bDashboard, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        pDashboardLayout.setVerticalGroup(
+            pDashboardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pDashboardLayout.createSequentialGroup()
+                .addContainerGap(8, Short.MAX_VALUE)
+                .addGroup(pDashboardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(bDashboard)
+                    .addComponent(jLabel2))
+                .addContainerGap())
+        );
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -415,36 +459,36 @@ public class Main extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(pVendor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(pKategori, javax.swing.GroupLayout.DEFAULT_SIZE, 252, Short.MAX_VALUE)
+                    .addComponent(pBarang, javax.swing.GroupLayout.DEFAULT_SIZE, 252, Short.MAX_VALUE)
+                    .addComponent(pPeminjam, javax.swing.GroupLayout.DEFAULT_SIZE, 252, Short.MAX_VALUE)
+                    .addComponent(pPeminjaman, javax.swing.GroupLayout.DEFAULT_SIZE, 252, Short.MAX_VALUE)
+                    .addComponent(pQR, javax.swing.GroupLayout.DEFAULT_SIZE, 252, Short.MAX_VALUE)
+                    .addComponent(pKeluar, javax.swing.GroupLayout.DEFAULT_SIZE, 252, Short.MAX_VALUE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(6, 6, 6)
-                        .addComponent(labelWaktu)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(pVendor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(pKategori, javax.swing.GroupLayout.DEFAULT_SIZE, 252, Short.MAX_VALUE)
-                            .addComponent(pBarang, javax.swing.GroupLayout.DEFAULT_SIZE, 252, Short.MAX_VALUE)
-                            .addComponent(pPeminjam, javax.swing.GroupLayout.DEFAULT_SIZE, 252, Short.MAX_VALUE)
-                            .addComponent(pPeminjaman, javax.swing.GroupLayout.DEFAULT_SIZE, 252, Short.MAX_VALUE)
-                            .addComponent(pQR, javax.swing.GroupLayout.DEFAULT_SIZE, 252, Short.MAX_VALUE)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(jLabel1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(labelLogo)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addComponent(pKeluar, javax.swing.GroupLayout.DEFAULT_SIZE, 252, Short.MAX_VALUE))
-                        .addContainerGap())))
+                            .addComponent(labelLogo)
+                            .addComponent(labelWaktu))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(pDashboard, javax.swing.GroupLayout.DEFAULT_SIZE, 252, Short.MAX_VALUE))
+                .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(labelLogo)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(labelLogo)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(labelWaktu))
                     .addComponent(jLabel1))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(labelWaktu)
-                .addGap(28, 28, 28)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(pDashboard, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(pVendor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(pKategori, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -458,7 +502,7 @@ public class Main extends javax.swing.JFrame {
                 .addComponent(pQR, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(pKeluar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         jPanel3.setBackground(new java.awt.Color(102, 204, 255));
@@ -476,7 +520,7 @@ public class Main extends javax.swing.JFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(87, 87, 87)
                 .addComponent(labelNama)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
                 .addComponent(jLabel8)
                 .addContainerGap())
         );
@@ -492,9 +536,6 @@ public class Main extends javax.swing.JFrame {
 
         pConten.setBackground(new java.awt.Color(255, 255, 255));
         pConten.setLayout(new java.awt.BorderLayout());
-
-        jLabel13.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/Business PROPOSAL.png"))); // NOI18N
-        pConten.add(jLabel13, java.awt.BorderLayout.CENTER);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -636,6 +677,22 @@ public class Main extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_bKeluarMouseClicked
 
+    private void bDashboardMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bDashboardMouseEntered
+        pDashboard.setBackground(new Color(0, 0, 102));
+    }//GEN-LAST:event_bDashboardMouseEntered
+
+    private void bDashboardMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bDashboardMouseExited
+        pDashboard.setBackground(new Color(0, 51, 153));
+    }//GEN-LAST:event_bDashboardMouseExited
+
+    private void bDashboardMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bDashboardMouseClicked
+        pConten.removeAll();
+        pConten.add(new FrameDashboard());
+        pConten.repaint();
+        pConten.revalidate();
+        pDashboard.setBackground(new Color(102, 204, 255));
+    }//GEN-LAST:event_bDashboardMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -657,6 +714,7 @@ public class Main extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel bBarang;
+    private javax.swing.JLabel bDashboard;
     private javax.swing.JLabel bKategori;
     private javax.swing.JLabel bKeluar;
     private javax.swing.JLabel bPeminjam;
@@ -666,7 +724,7 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
@@ -681,6 +739,7 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JLabel labelWaktu;
     private javax.swing.JPanel pBarang;
     public static javax.swing.JPanel pConten;
+    private javax.swing.JPanel pDashboard;
     private javax.swing.JPanel pKategori;
     private javax.swing.JPanel pKeluar;
     private javax.swing.JPanel pPeminjam;

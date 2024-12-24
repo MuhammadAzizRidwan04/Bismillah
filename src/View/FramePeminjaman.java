@@ -26,14 +26,13 @@ public class FramePeminjaman extends javax.swing.JPanel {
     public FramePeminjaman() {
         initComponents();
         loadTable();
-        
+
         txtcaripeminjaman.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 String keyword = txtcaripeminjaman.getText().trim(); // Ambil teks pencarian
                 cariPeminjaman(keyword); // Panggil metode pencarian
             }
         });
-
 
     }
 
@@ -70,7 +69,6 @@ public class FramePeminjaman extends javax.swing.JPanel {
 
         tblPeminjaman.setModel(model);
     }
-
 
     private void cariPeminjaman(String keyword) {
         // Membuat model untuk JTable
@@ -225,16 +223,26 @@ public class FramePeminjaman extends javax.swing.JPanel {
                 FrameInputPeminjaman IPB = new FrameInputPeminjaman();
                 IPB.setData(ID, Peminjam, Barang, Status, Jumlah, TanggalP, TanggalK);
                 IPB.btnTambah.setVisible(false);
-                IPB.lblTanggalKembali.setVisible(false);
-                IPB.txtTanggalKembali.setVisible(false);
-                IPB.cbStatus.removeAllItems();
-                IPB.cbStatus.addItem("Dikembalikan");
+                if (Status.equals("Dikembalikan")) {
+                    IPB.btnKembalikan.setVisible(false);
+                    IPB.cbStatus.removeAllItems();
+                    IPB.cbStatus.addItem("Dikembalikan");
+                }
+
+                if (Status.equals("Dipinjam")) {
+
+                    IPB.cbStatus.removeAllItems();
+                    IPB.cbStatus.addItem("Dikembalikan");
+                    IPB.txtTanggalKembali.setVisible(false);
+                    IPB.lblTanggalKembali.setVisible(false);
+                }
+
                 IPB.setVisible(true);
 
             }
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, "Terjadi kesalahan saat memilih data: " + ex.getMessage());
-        } 
+        }
 
 
     }//GEN-LAST:event_tblPeminjamanMouseClicked
@@ -258,7 +266,7 @@ public class FramePeminjaman extends javax.swing.JPanel {
     }//GEN-LAST:event_btnPindahkeFrameTampilPeminjamanActionPerformed
 
     private void btnSisaBarangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSisaBarangActionPerformed
-        new FrameSisaBarang().setVisible(true);
+        new FrameLaporanBarang().setVisible(true);
     }//GEN-LAST:event_btnSisaBarangActionPerformed
 
 

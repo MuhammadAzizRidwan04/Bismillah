@@ -8,10 +8,12 @@ import java.sql.Statement;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 public class Barang {
 
     int jumlah;
+
     String id_barang, id_vendor, id_kategori, nama_barang, merk, status, jenis;
 
     private Connection konek;
@@ -110,6 +112,29 @@ public class Barang {
         }
     }
 
+//    public ResultSet tampilBarang() {
+//        query = "SELECT "
+//                + "b.id_barang AS ID, "
+//                + "b.nama_barang AS Nama, "
+//                + "b.merk AS Merk, "
+//                + "v.nama_vendor AS Vendor, "
+//                + "k.nama_kategori AS Kategori, "
+//                + "b.status AS Status, "
+//                + "b.jenis AS Jenis, "
+//                + "b.jumlah AS Jumlah "
+//                + "FROM barang b "
+//                + "JOIN vendor v ON b.id_vendor = v.id_vendor "
+//                + "JOIN kategori k ON b.id_kategori = k.id_kategori";
+//        try {
+//            System.out.println("Query: " + query);
+//            st = konek.createStatement();
+//            rs = st.executeQuery(query);
+//        } catch (SQLException sQLException) {
+//            System.out.println(sQLException);
+//
+//        }
+//        return rs;
+//    }
     public ResultSet tampilBarang() {
         query = "SELECT "
                 + "b.id_barang AS ID, "
@@ -119,17 +144,22 @@ public class Barang {
                 + "k.nama_kategori AS Kategori, "
                 + "b.status AS Status, "
                 + "b.jenis AS Jenis, "
-                + "b.jumlah AS Jumlah "
+                + "b.jumlah AS Jumlah, "
+                + "CASE "
+                + "    WHEN p.status IS NOT NULL AND p.status = 'Dipinjam' THEN CONCAT('Dipinjam, Jumlah: ', p.jumlah) "
+                + "    ELSE '' "
+                + "END AS Kondisi "
                 + "FROM barang b "
                 + "JOIN vendor v ON b.id_vendor = v.id_vendor "
-                + "JOIN kategori k ON b.id_kategori = k.id_kategori";
+                + "JOIN kategori k ON b.id_kategori = k.id_kategori "
+                + "LEFT JOIN peminjaman p ON b.id_barang = p.id_barang AND p.status = 'Dipinjam'";
+
         try {
             System.out.println("Query: " + query);
             st = konek.createStatement();
             rs = st.executeQuery(query);
         } catch (SQLException sQLException) {
             System.out.println(sQLException);
-
         }
         return rs;
     }
@@ -147,7 +177,6 @@ public class Barang {
             JOptionPane.showMessageDialog(null, "Data Gagal Dihapus");
         }
     }
-
 
     public void ubahBarang() {
 
@@ -181,7 +210,6 @@ public class Barang {
         }
 
     }
-
 
     public String getVendorID(String vendorName) {
         String vendorID = "";
@@ -236,9 +264,6 @@ public class Barang {
         return autoID;
     }
 
-    
-
-    
     public String generateFullID(String vendorName, String kategoriName) {
         String vendorID = getVendorID(vendorName);
         String kategoriID = getKategoriID(kategoriName);
@@ -246,20 +271,18 @@ public class Barang {
         return vendorID + kategoriID + autoID;
     }
 
-
     public ResultSet tampilComBoxBarang() {
-    query = "SELECT nama_barang FROM barang WHERE jenis = 'Boleh Dipinjam'";
-    try {
-        st = konek.createStatement();
-        rs = st.executeQuery(query);
-    } catch (SQLException sQLException) {
-        JOptionPane.showMessageDialog(null, "Data Gagal Tampil: " + sQLException.getMessage());
+        query = "SELECT nama_barang FROM barang WHERE jenis = 'Boleh Dipinjam'";
+        try {
+            st = konek.createStatement();
+            rs = st.executeQuery(query);
+        } catch (SQLException sQLException) {
+            JOptionPane.showMessageDialog(null, "Data Gagal Tampil: " + sQLException.getMessage());
+        }
+        return rs;
     }
-    return rs;
-}
 
-    
-     public ResultSet KonversiBarang() {
+    public ResultSet KonversiBarang() {
         query = "SELECT id_barang FROM barang WHERE nama_barang = ?";
         try {
             ps = konek.prepareStatement(query);
@@ -272,63 +295,170 @@ public class Barang {
         }
         return rs;
     }
-     
+
     public int getStokBarang(String namaBarang) throws SQLException {
-    query = "SELECT jumlah FROM barang WHERE nama_barang = ?";
-    int stok = 0;
+        query = "SELECT jumlah FROM barang WHERE nama_barang = ?";
+        int stok = 0;
 
-    try {
-        ps = konek.prepareStatement(query);
-        ps.setString(1, namaBarang);
-        rs = ps.executeQuery();
+        try {
+            ps = konek.prepareStatement(query);
+            ps.setString(1, namaBarang);
+            rs = ps.executeQuery();
 
-        if (rs.next()) {
-            stok = rs.getInt("jumlah");
+            if (rs.next()) {
+                stok = rs.getInt("jumlah");
+            }
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (ps != null) {
+                ps.close();
+            }
         }
-    } finally {
-        if (rs != null) rs.close();
-        if (ps != null) ps.close();
+        return stok;
     }
-    return stok;
-}
-    
-    
 
     public ResultSet cariBarang(String keyword) {
-    query = "SELECT b.id_barang, b.nama_barang, b.merk, b.status, b.jenis, b.jumlah, " +
-            "v.nama_vendor, k.nama_kategori " +
-            "FROM barang b " +
-            "JOIN vendor v ON b.id_vendor = v.id_vendor " +
-            "JOIN kategori k ON b.id_kategori = k.id_kategori " +
-            "WHERE b.id_barang LIKE ? OR " +
-            "b.nama_barang LIKE ? OR " +
-            "b.merk LIKE ? OR " +
-            "b.status LIKE ? OR " +
-            "b.jenis LIKE ? OR " +
-            "v.nama_vendor LIKE ? OR " +
-            "k.nama_kategori LIKE ?";
+        query = "SELECT b.id_barang, b.nama_barang, b.merk, b.status, b.jenis, b.jumlah, "
+                + "v.nama_vendor, k.nama_kategori "
+                + "FROM barang b "
+                + "JOIN vendor v ON b.id_vendor = v.id_vendor "
+                + "JOIN kategori k ON b.id_kategori = k.id_kategori "
+                + "WHERE b.id_barang LIKE ? OR "
+                + "b.nama_barang LIKE ? OR "
+                + "b.merk LIKE ? OR "
+                + "b.status LIKE ? OR "
+                + "b.jenis LIKE ? OR "
+                + "v.nama_vendor LIKE ? OR "
+                + "k.nama_kategori LIKE ?";
 
-    try {
-        ps = konek.prepareStatement(query);
+        try {
+            ps = konek.prepareStatement(query);
 
-        // Mengisi parameter pencarian dengan keyword untuk semua kolom
-        for (int i = 1; i <= 7; i++) {
-            ps.setString(i, "%" + keyword + "%");
+            // Mengisi parameter pencarian dengan keyword untuk semua kolom
+            for (int i = 1; i <= 7; i++) {
+                ps.setString(i, "%" + keyword + "%");
+            }
+
+            rs = ps.executeQuery();
+        } catch (SQLException sQLException) {
+            JOptionPane.showMessageDialog(null, "Data Gagal Dicari: " + sQLException.getMessage());
+        }
+        return rs;
+    }
+
+    public DefaultTableModel getLaporanBarang() {
+        DefaultTableModel model = new DefaultTableModel();
+
+        // Menambahkan kolom ke tabel model
+        model.addColumn("Nama Barang");
+        model.addColumn("Total Barang");
+        model.addColumn("Sedang Dipinjam");
+        model.addColumn("Sisa Barang");
+
+        try {
+            Koneksi koneksi = new Koneksi(); // Membuat instance kelas Koneksi
+            Connection conn = koneksi.konekDB(); // Memanggil metode konekDB()
+            String query = """
+                SELECT 
+                    b.nama_barang, 
+                    b.jumlah AS total_barang, 
+                    COALESCE(SUM(p.jumlah), 0) AS sedang_dipinjam,
+                    (b.jumlah - COALESCE(SUM(p.jumlah), 0)) AS sisa_barang
+                FROM 
+                    barang b
+                LEFT JOIN 
+                    peminjaman p ON b.id_barang = p.id_barang AND p.status = 'Dipinjam'
+                WHERE 
+                    b.jenis = 'Boleh Dipinjam' -- Filter barang yang jenisnya Boleh Dipinjam
+                GROUP BY 
+                    b.id_barang, b.nama_barang, b.jumlah
+            """;
+
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+
+            while (rs.next()) {
+                String namaBarang = rs.getString("nama_barang");
+                int totalBarang = rs.getInt("total_barang");
+                int sedangDipinjam = rs.getInt("sedang_dipinjam");
+                int sisaBarang = rs.getInt("sisa_barang");
+
+                // Menambahkan data ke model tabel
+                model.addRow(new Object[]{namaBarang, totalBarang, sedangDipinjam, sisaBarang});
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
-        rs = ps.executeQuery();
-    } catch (SQLException sQLException) {
-        JOptionPane.showMessageDialog(null, "Data Gagal Dicari: " + sQLException.getMessage());
+        return model;
     }
-    return rs;
-}
 
+    public int TampilJumlahBarangBaru() {
+        int jumlah = 0;
+        String query = "SELECT COUNT(*) AS jumlah FROM barang WHERE status = 'Baru'";
 
+        try {
+            st = konek.createStatement();
+            rs = st.executeQuery(query);
 
+            if (rs.next()) {
+                jumlah = rs.getInt("jumlah");
+            }
 
+            rs.close();
+            st.close();
+        } catch (SQLException sQLException) {
+            JOptionPane.showMessageDialog(null, "Data gagal ditampilkan: " + sQLException.getMessage(),
+                    "Error", JOptionPane.ERROR_MESSAGE);
+        }
 
+        return jumlah;
+    }
 
+    public int TampilJumlahBarangSecond() {
 
+        String query = "SELECT COUNT(*) AS jumlah FROM barang WHERE status = 'Bekas'";
+        int jumlah = 0;
+        try {
+            st = konek.createStatement();
+            rs = st.executeQuery(query);
 
+            if (rs.next()) {
+                jumlah = rs.getInt("jumlah");
+            }
+
+            rs.close();
+            st.close();
+        } catch (SQLException sQLException) {
+            JOptionPane.showMessageDialog(null, "Data gagal ditampilkan: " + sQLException.getMessage(),
+                    "Error", JOptionPane.ERROR_MESSAGE);
+        }
+
+        return jumlah;
+    }
+
+    public int TampilJumlahBarang() {
+        int jumlah =0;
+        query = "SELECT COUNT(*) AS jumlah FROM barang";
+
+        try {
+            st = konek.createStatement();
+            rs = st.executeQuery(query);
+
+            if (rs.next()) {
+                jumlah = rs.getInt("jumlah");
+            }
+
+            rs.close();
+            st.close();
+        } catch (SQLException sQLException) {
+            JOptionPane.showMessageDialog(null, "Data gagal ditampilkan: " + sQLException.getMessage(),
+                    "Error", JOptionPane.ERROR_MESSAGE);
+        }
+
+        return jumlah;
+    }
 
 }

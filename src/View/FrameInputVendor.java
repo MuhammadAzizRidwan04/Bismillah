@@ -43,12 +43,11 @@ public class FrameInputVendor extends javax.swing.JFrame {
 
         }
 
-       
     }
 
     void reset() {
         autoID();
-       
+
         txtNamaVendor.setText(null);
         txtAlamat.setText(null);
         txtNamaCP.setText(null);
@@ -66,15 +65,25 @@ public class FrameInputVendor extends javax.swing.JFrame {
         }
     }
 
-    public void setData(String ID, String Nama, String Alamat, String NamaCP, String NoTlp, String Email) {
-        txtIdVendor.setText(ID);
-        txtNamaVendor.setText(Nama);
-        txtAlamat.setText(Alamat);
-        txtNamaCP.setText(NamaCP);
-        txtNoTlp.setText(NoTlp);
-        txtEmail.setText(Email);
+//    public void setData(String ID, String Nama, String Alamat, String NamaCP, String NoTlp, String Email) {
+//        txtIdVendor.setText(ID);
+//        txtNamaVendor.setText(Nama);
+//        txtAlamat.setText(Alamat);
+//        txtNamaCP.setText(NamaCP);
+//        txtNoTlp.setText(NoTlp);
+//        txtEmail.setText(Email);
+//
+//    }
+    
+    public void setDataFromVendor(Vendor vendor) {
+    txtIdVendor.setText(vendor.getId_vendor());
+    txtNamaVendor.setText(vendor.getNama_vendor());
+    txtAlamat.setText(vendor.getAlamat());
+    txtNamaCP.setText(vendor.getNama_cp());
+    txtNoTlp.setText(vendor.getNo_tlp());
+    txtEmail.setText(vendor.getEmail());
+}
 
-    }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -238,10 +247,32 @@ public class FrameInputVendor extends javax.swing.JFrame {
         try {
             Vendor ven = new Vendor();
             ven.setId_vendor(txtIdVendor.getText());
-            ven.setNama_vendor(txtNamaVendor.getText());
-            ven.setAlamat(txtAlamat.getText());
-            ven.setNama_cp(txtNamaCP.getText());
-            ven.setNo_tlp(txtNoTlp.getText());
+            if (txtNamaVendor.getText().isEmpty()) {
+                ven.setNama_vendor(null);
+                JOptionPane.showMessageDialog(null, "Nama Vendor Tidak Boleh Kosong");
+            } else {
+                ven.setNama_vendor(txtNamaVendor.getText());
+            }
+
+            if (txtAlamat.getText().isEmpty()) {
+                ven.setAlamat(null);
+                JOptionPane.showMessageDialog(null, "Alamat Tidak Boleh Kosong");
+            } else {
+                ven.setAlamat(txtAlamat.getText());
+            }
+
+            if (txtNamaCP.getText().isEmpty()) {
+                ven.setNama_cp(null);
+                JOptionPane.showMessageDialog(null, "Nama CP Tidak Boleh Kosong");
+            } else {
+                ven.setNama_cp(txtNamaCP.getText());
+            }
+
+            if (txtNoTlp.getText().isEmpty()) {
+                ven.setNo_tlp(null);
+            } else {
+                ven.setNo_tlp(txtNoTlp.getText());
+            }
             ven.setEmail(txtEmail.getText());
 
             ven.tambahVendor();

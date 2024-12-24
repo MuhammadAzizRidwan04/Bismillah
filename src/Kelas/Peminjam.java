@@ -9,6 +9,7 @@ import javax.swing.JOptionPane;
 
 public class Peminjam {
 
+    int jumlah = 0;
     String id_peminjam, nama, no_tlp, instansi, alamat, nik;
 
     private Connection konek;
@@ -69,8 +70,6 @@ public class Peminjam {
     public void setNik(String nik) {
         this.nik = nik;
     }
-
-    
 
     public void tambahPeminjam() {
         query = "INSERT INTO peminjam VALUES(?,?,?,?,?,?)";
@@ -187,7 +186,7 @@ public class Peminjam {
         }
         return newID;
     }
-    
+
     public ResultSet cariPeminjam(String keyword) {
         query = "SELECT * FROM peminjam WHERE "
                 + "id_peminjam LIKE ? OR "
@@ -206,5 +205,26 @@ public class Peminjam {
             JOptionPane.showMessageDialog(null, "Data Gagal Dicari: " + sQLException.getMessage());
         }
         return rs;
+    }
+
+    public int TampilJumlahPeminjam() {
+        query = "SELECT COUNT(*) AS jumlah FROM peminjam";
+
+        try {
+            st = konek.createStatement();
+            rs = st.executeQuery(query);
+
+            if (rs.next()) {
+                jumlah = rs.getInt("jumlah");
+            }
+
+            rs.close();
+            st.close();
+        } catch (SQLException sQLException) {
+            JOptionPane.showMessageDialog(null, "Data gagal ditampilkan: " + sQLException.getMessage(),
+                    "Error", JOptionPane.ERROR_MESSAGE);
+        }
+
+        return jumlah;
     }
 }

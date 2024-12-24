@@ -178,27 +178,49 @@ public class FrameVendor extends javax.swing.JPanel {
     }//GEN-LAST:event_btnTambahActionPerformed
 
     private void tblVendorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblVendorMouseClicked
-        try {
+//        try {
+//
+//            int baris = tblVendor.rowAtPoint(evt.getPoint());
+//            if (baris >= 0) { // Pastikan baris valid
+//                String ID = tblVendor.getValueAt(baris, 0) != null ? tblVendor.getValueAt(baris, 0).toString() : "";
+//                String Nama = tblVendor.getValueAt(baris, 1) != null ? tblVendor.getValueAt(baris, 1).toString() : "";
+//                String Alamat = tblVendor.getValueAt(baris, 2) != null ? tblVendor.getValueAt(baris, 2).toString() : "";
+//                String NamaCP = tblVendor.getValueAt(baris, 3) != null ? tblVendor.getValueAt(baris, 3).toString() : "";
+//                String NoTLP = tblVendor.getValueAt(baris, 4) != null ? tblVendor.getValueAt(baris, 4).toString() : "";
+//                String Email = tblVendor.getValueAt(baris, 5) != null ? tblVendor.getValueAt(baris, 5).toString() : "";
+//
+//                // Membuka FrameInputVendor dan mengirimkan data
+//                FrameInputVendor IV = new FrameInputVendor();
+//                IV.btnTambah.setVisible(false);
+//                IV.setData(ID, Nama, Alamat, NamaCP, NoTLP, Email);
+//                IV.setVisible(true);
+//
+//            }
+//        } catch (Exception ex) {
+//            JOptionPane.showMessageDialog(this, "Terjadi kesalahan saat memilih data: " + ex.getMessage());
+//        }
+try {
+        int baris = tblVendor.rowAtPoint(evt.getPoint());
+        if (baris >= 0) {
+            Vendor vendor = new Vendor();
+            vendor.setData(
+                tblVendor.getValueAt(baris, 0) != null ? tblVendor.getValueAt(baris, 0).toString() : "",
+                tblVendor.getValueAt(baris, 1) != null ? tblVendor.getValueAt(baris, 1).toString() : "",
+                tblVendor.getValueAt(baris, 2) != null ? tblVendor.getValueAt(baris, 2).toString() : "",
+                tblVendor.getValueAt(baris, 3) != null ? tblVendor.getValueAt(baris, 3).toString() : "",
+                tblVendor.getValueAt(baris, 4) != null ? tblVendor.getValueAt(baris, 4).toString() : "",
+                tblVendor.getValueAt(baris, 5) != null ? tblVendor.getValueAt(baris, 5).toString() : ""
+            );
 
-            int baris = tblVendor.rowAtPoint(evt.getPoint());
-            if (baris >= 0) { // Pastikan baris valid
-                String ID = tblVendor.getValueAt(baris, 0) != null ? tblVendor.getValueAt(baris, 0).toString() : "";
-                String Nama = tblVendor.getValueAt(baris, 1) != null ? tblVendor.getValueAt(baris, 1).toString() : "";
-                String Alamat = tblVendor.getValueAt(baris, 2) != null ? tblVendor.getValueAt(baris, 2).toString() : "";
-                String NamaCP = tblVendor.getValueAt(baris, 3) != null ? tblVendor.getValueAt(baris, 3).toString() : "";
-                String NoTLP = tblVendor.getValueAt(baris, 4) != null ? tblVendor.getValueAt(baris, 4).toString() : "";
-                String Email = tblVendor.getValueAt(baris, 5) != null ? tblVendor.getValueAt(baris, 5).toString() : "";
-
-                // Membuka FrameInputVendor dan mengirimkan data
-                FrameInputVendor IV = new FrameInputVendor();
-                IV.btnTambah.setVisible(false);
-                IV.setData(ID, Nama, Alamat, NamaCP, NoTLP, Email);
-                IV.setVisible(true);
-
-            }
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this, "Terjadi kesalahan saat memilih data: " + ex.getMessage());
+            // Membuka FrameInputVendor dan meneruskan data
+            FrameInputVendor IV = new FrameInputVendor();
+            IV.btnTambah.setVisible(false);
+            IV.setDataFromVendor(vendor);
+            IV.setVisible(true);
         }
+    } catch (Exception ex) {
+        JOptionPane.showMessageDialog(this, "Terjadi kesalahan saat memilih data: " + ex.getMessage());
+    }
     }//GEN-LAST:event_tblVendorMouseClicked
 
 

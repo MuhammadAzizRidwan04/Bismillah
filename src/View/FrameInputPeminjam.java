@@ -1,4 +1,3 @@
-
 package View;
 
 import Kelas.Peminjam;
@@ -43,7 +42,6 @@ public class FrameInputPeminjam extends javax.swing.JFrame {
 
         }
 
-        
     }
 
     void reset() {
@@ -65,7 +63,7 @@ public class FrameInputPeminjam extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Error saat membuat ID: " + e.getMessage());
         }
     }
-    
+
     public void setData(String ID, String Nama, String NoTlp, String Instansi, String Alamat, String Nik) {
         txtIDPeminjam.setText(ID);
         txtNama.setText(Nama);
@@ -75,6 +73,7 @@ public class FrameInputPeminjam extends javax.swing.JFrame {
         txtNIK.setText(Nik);
 
     }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -241,10 +240,28 @@ public class FrameInputPeminjam extends javax.swing.JFrame {
         try {
             Peminjam pem = new Peminjam();
             pem.setId_peminjam(txtIDPeminjam.getText());
-            pem.setNama(txtNama.getText());
-            pem.setNo_tlp(txtNoTlp.getText());
+
+            if (txtNama.getText().isEmpty()) {
+                pem.setNama(null);
+                JOptionPane.showMessageDialog(null, "Nama Peminjam Tidak Boleh Kosong");
+            } else {
+                pem.setNama(txtNama.getText());
+            }
+
+            if (txtNoTlp.getText().isEmpty()) {
+                pem.setNo_tlp(null);
+                JOptionPane.showMessageDialog(null, "No Tlp Tidak Boleh Kosong");
+            } else {
+                pem.setNo_tlp(txtNoTlp.getText());
+            }
             pem.setInstansi(txtInstansi.getText());
-            pem.setAlamat(txtAlamat.getText());
+
+            if (txtAlamat.getText().isEmpty()) {
+                pem.setAlamat(null);
+                JOptionPane.showMessageDialog(null, "Alamat Tidak Boleh Kosong");
+            } else {
+                pem.setAlamat(txtAlamat.getText());
+            }
             pem.setNik(txtNIK.getText());
 
             pem.tambahPeminjam();

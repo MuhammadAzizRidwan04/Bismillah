@@ -22,6 +22,8 @@ public class FrameInputPeminjaman extends javax.swing.JFrame {
 
     public FrameInputPeminjaman() {
         initComponents();
+        
+        
         loadTable();
         reset();
         setTanggalWaktu();

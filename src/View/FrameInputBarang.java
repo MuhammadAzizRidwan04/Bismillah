@@ -28,7 +28,6 @@ public class FrameInputBarang extends javax.swing.JFrame {
         AutoCompleteDecorator.decorate(cbVendor);
         AutoCompleteDecorator.decorate(cbKategori);
     }
-   
 
     void loadTable() {
         DefaultTableModel model = new DefaultTableModel();
@@ -62,7 +61,6 @@ public class FrameInputBarang extends javax.swing.JFrame {
 
         }
 
-        
     }
 
     void reset() {
@@ -119,8 +117,6 @@ public class FrameInputBarang extends javax.swing.JFrame {
         FrameInputBarang.edit = edit;
     }
 
-    
-
     public void setData(String ID, String NamaBarang, String Merk, String Vendor, String Kategori, String Status, String Jenis, String Jumlah) {
         txtIDBarang.setText(ID);
         txtNamaBarang.setText(NamaBarang);
@@ -131,7 +127,6 @@ public class FrameInputBarang extends javax.swing.JFrame {
         cbJenis.setSelectedItem(Jenis);
         txtJumlah.setText(Jumlah);
     }
-   
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -192,7 +187,7 @@ public class FrameInputBarang extends javax.swing.JFrame {
 
         jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel6.setText("Status");
+        jLabel6.setText("Kondisi");
 
         cbStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Baru", "Bekas" }));
 
@@ -297,7 +292,7 @@ public class FrameInputBarang extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void cbVendorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbVendorActionPerformed
-         if (isTableSelection) {
+        if (isTableSelection) {
             return; // Jangan eksekusi jika dipicu oleh klik tabel
         }
         String vendorName = cbVendor.getSelectedItem() != null ? cbVendor.getSelectedItem().toString() : "";
@@ -348,6 +343,7 @@ public class FrameInputBarang extends javax.swing.JFrame {
             Kategori kat = new Kategori();
             brg.setId_barang(txtIDBarang.getText());
             brg.setNama_barang(txtNamaBarang.getText());
+            
             brg.setMerk(txtMerk.getText());
             ven.setNama_vendor(cbVendor.getSelectedItem().toString());
             kat.setNama_kategori(cbKategori.getSelectedItem().toString());
@@ -367,20 +363,18 @@ public class FrameInputBarang extends javax.swing.JFrame {
                 brg.setId_kategori(isikategori);
             }
             brg.tambahBarang();
-                    loadTable();
-        reset();
-        
-        
+            loadTable();
+            reset();
+
         } catch (SQLException sQLException) {
             System.out.println("data tidak masuk");
         }
-       
+
         Main.pConten.removeAll();
         Main.pConten.add(new FrameBarang());
         Main.pConten.repaint();
         Main.pConten.revalidate();
-         dispose();
-
+        dispose();
 
 
     }//GEN-LAST:event_btnTambahActionPerformed

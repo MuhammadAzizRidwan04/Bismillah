@@ -291,85 +291,83 @@ public class FrameQR extends javax.swing.JPanel {
 
     private void btnCetakActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCetakActionPerformed
 
-
- try {
-        // Membaca input dari user
-        String namaFile = txtNama.getText().trim();
-        String jumlahCetakStr = txtJumlahCetak.getText().trim();
-        String tanggal = txtTanggal.getText().trim();
-
-        if (namaFile.isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Nama tidak boleh kosong!");
-            return;
-        }
-
-        if (jumlahCetakStr.isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Jumlah cetak tidak boleh kosong!");
-            return;
-        }
-
-        if (tanggal.isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Tanggal tidak boleh kosong!");
-            return;
-        }
-
-        // Parsing jumlah cetak
-        int jumlahCetak;
         try {
-            jumlahCetak = Integer.parseInt(jumlahCetakStr);
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(null, "Jumlah cetak harus berupa angka!");
-            return;
+            // Membaca input dari user
+            String namaFile = txtNama.getText().trim();
+            String jumlahCetakStr = txtJumlahCetak.getText().trim();
+            String tanggal = txtTanggal.getText().trim();
+
+            if (namaFile.isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Nama tidak boleh kosong!");
+                return;
+            }
+
+            if (jumlahCetakStr.isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Jumlah cetak tidak boleh kosong!");
+                return;
+            }
+
+            if (tanggal.isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Tanggal tidak boleh kosong!");
+                return;
+            }
+
+            // Parsing jumlah cetak
+            int jumlahCetak;
+            try {
+                jumlahCetak = Integer.parseInt(jumlahCetakStr);
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(null, "Jumlah cetak harus berupa angka!");
+                return;
+            }
+
+            if (jumlahCetak <= 0) {
+                JOptionPane.showMessageDialog(null, "Jumlah cetak harus lebih dari 0!");
+                return;
+            }
+
+            // Generate satu barcode
+            ByteArrayOutputStream out = QRCode.from(qr_text.getText()).to(ImageType.PNG).stream();
+            byte[] barcodeData = out.toByteArray();
+            ImageIcon barcodeIcon = new ImageIcon(barcodeData);
+
+            // Resize gambar barcode
+            int barcodeWidth = 216;
+            int barcodeHeight = 190;
+            Image barcodeImage = barcodeIcon.getImage().getScaledInstance(barcodeWidth, barcodeHeight, Image.SCALE_SMOOTH);
+
+            // Set gambar ke labelBarcode (hanya satu barcode)
+            labelBarcode.setIcon(new ImageIcon(barcodeImage));
+
+            // Membuat gambar baru untuk menyimpan barcode sebanyak jumlahCetak
+            int kolom = 3; // Jumlah kolom barcode dalam satu baris
+            int baris = (int) Math.ceil((double) jumlahCetak / kolom); // Hitung jumlah baris yang dibutuhkan
+            int gambarLebar = kolom * barcodeWidth;
+            int gambarTinggi = baris * barcodeHeight;
+
+            BufferedImage combinedImage = new BufferedImage(gambarLebar, gambarTinggi, BufferedImage.TYPE_INT_ARGB);
+            Graphics2D g2d = combinedImage.createGraphics();
+
+            // Menggambar barcode secara berulang
+            for (int i = 0; i < jumlahCetak; i++) {
+                int x = (i % kolom) * barcodeWidth; // Posisi X berdasarkan kolom
+                int y = (i / kolom) * barcodeHeight; // Posisi Y berdasarkan baris
+                g2d.drawImage(barcodeImage, x, y, null);
+            }
+            g2d.dispose();
+
+            // Simpan gambar ke dalam satu file PNG
+            String pathName = "D:\\QRCode\\"; // Path penyimpanan
+            String fileName = pathName + namaFile + "_" + tanggal + ".PNG";
+            ImageIO.write(combinedImage, "PNG", new File(fileName));
+
+            // Tampilkan pesan sukses
+            JOptionPane.showMessageDialog(null, "Barcode berhasil dicetak dalam satu file PNG!");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Terjadi kesalahan: " + e.getMessage());
         }
-
-        if (jumlahCetak <= 0) {
-            JOptionPane.showMessageDialog(null, "Jumlah cetak harus lebih dari 0!");
-            return;
-        }
-
-        // Generate satu barcode
-        ByteArrayOutputStream out = QRCode.from(qr_text.getText()).to(ImageType.PNG).stream();
-        byte[] barcodeData = out.toByteArray();
-        ImageIcon barcodeIcon = new ImageIcon(barcodeData);
-
-        // Resize gambar barcode
-        int barcodeWidth = 216;
-        int barcodeHeight = 190;
-        Image barcodeImage = barcodeIcon.getImage().getScaledInstance(barcodeWidth, barcodeHeight, Image.SCALE_SMOOTH);
-
-        // Set gambar ke labelBarcode (hanya satu barcode)
-        labelBarcode.setIcon(new ImageIcon(barcodeImage));
-
-        // Membuat gambar baru untuk menyimpan barcode sebanyak jumlahCetak
-        int kolom = 3; // Jumlah kolom barcode dalam satu baris
-        int baris = (int) Math.ceil((double) jumlahCetak / kolom); // Hitung jumlah baris yang dibutuhkan
-        int gambarLebar = kolom * barcodeWidth;
-        int gambarTinggi = baris * barcodeHeight;
-
-        BufferedImage combinedImage = new BufferedImage(gambarLebar, gambarTinggi, BufferedImage.TYPE_INT_ARGB);
-        Graphics2D g2d = combinedImage.createGraphics();
-
-        // Menggambar barcode secara berulang
-        for (int i = 0; i < jumlahCetak; i++) {
-            int x = (i % kolom) * barcodeWidth; // Posisi X berdasarkan kolom
-            int y = (i / kolom) * barcodeHeight; // Posisi Y berdasarkan baris
-            g2d.drawImage(barcodeImage, x, y, null);
-        }
-        g2d.dispose();
-
-        // Simpan gambar ke dalam satu file PNG
-        String pathName = "D:\\QRCode\\"; // Path penyimpanan
-        String fileName = pathName + namaFile + "_" + tanggal + ".PNG";
-        ImageIO.write(combinedImage, "PNG", new File(fileName));
-
-        // Tampilkan pesan sukses
-        JOptionPane.showMessageDialog(null, "Barcode berhasil dicetak dalam satu file PNG!");
-
-    } catch (Exception e) {
-        e.printStackTrace();
-        JOptionPane.showMessageDialog(null, "Terjadi kesalahan: " + e.getMessage());
-    }
-
 
 
     }//GEN-LAST:event_btnCetakActionPerformed

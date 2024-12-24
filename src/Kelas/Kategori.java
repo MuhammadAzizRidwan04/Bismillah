@@ -9,6 +9,7 @@ import javax.swing.JOptionPane;
 
 public class Kategori {
 
+    int jumlah = 0;
     String id_kategori, nama_kategori;
 
     private Connection konek;
@@ -147,25 +148,43 @@ public class Kategori {
     String getID(String kategoriName) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
-    
-    public ResultSet cariKategori(String keyword) {
-    query = "SELECT * FROM kategori WHERE "
-          + "id_kategori LIKE ? OR "
-          + "nama_kategori LIKE ?";
-          
-    try {
-        ps = konek.prepareStatement(query);
-        for (int i = 1; i <= 2; i++) {
-            ps.setString(i, "%" + keyword + "%"); // Wildcard pencarian untuk semua kolom
-        }
-        rs = ps.executeQuery();
-    } catch (SQLException sQLException) {
-        JOptionPane.showMessageDialog(null, "Data Gagal Dicari: " + sQLException.getMessage());
-    }
-    return rs;
-}
-    
-   
 
-    
+    public ResultSet cariKategori(String keyword) {
+        query = "SELECT * FROM kategori WHERE "
+                + "id_kategori LIKE ? OR "
+                + "nama_kategori LIKE ?";
+
+        try {
+            ps = konek.prepareStatement(query);
+            for (int i = 1; i <= 2; i++) {
+                ps.setString(i, "%" + keyword + "%"); // Wildcard pencarian untuk semua kolom
+            }
+            rs = ps.executeQuery();
+        } catch (SQLException sQLException) {
+            JOptionPane.showMessageDialog(null, "Data Gagal Dicari: " + sQLException.getMessage());
+        }
+        return rs;
+    }
+
+    public int TampilJumlahKategori() {
+        query = "SELECT COUNT(*) AS jumlah FROM kategori";
+
+        try {
+            st = konek.createStatement();
+            rs = st.executeQuery(query);
+
+            if (rs.next()) {
+                jumlah = rs.getInt("jumlah");
+            }
+
+            rs.close();
+            st.close();
+        } catch (SQLException sQLException) {
+            JOptionPane.showMessageDialog(null, "Data gagal ditampilkan: " + sQLException.getMessage(),
+                    "Error", JOptionPane.ERROR_MESSAGE);
+        }
+
+        return jumlah;
+    }
+
 }

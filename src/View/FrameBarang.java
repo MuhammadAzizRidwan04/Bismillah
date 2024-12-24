@@ -48,9 +48,10 @@ public class FrameBarang extends javax.swing.JPanel {
         model.addColumn("Merk");
         model.addColumn("Vendor");
         model.addColumn("Kategori");
-        model.addColumn("Status");
+        model.addColumn("Kondisi");
         model.addColumn("Jenis");
         model.addColumn("Jumlah");
+        model.addColumn("Status");
 
         try {
             Barang brg = new Barang();
@@ -65,7 +66,8 @@ public class FrameBarang extends javax.swing.JPanel {
                     data.getString("Kategori"),
                     data.getString("Status"),
                     data.getString("Jenis"),
-                    data.getString("Jumlah"),});
+                    data.getString("Jumlah"),
+                    data.getString("Kondisi"),});
 
             }
 

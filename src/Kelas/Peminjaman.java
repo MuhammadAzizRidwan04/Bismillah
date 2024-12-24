@@ -243,5 +243,29 @@ public class Peminjaman {
         }
         return rs;
     }
+    
+    public int TampilJumlahBarangDipinjam() {
+    int jumlah = 0;
+    String query = "SELECT SUM(jumlah) AS total FROM peminjaman WHERE status = 'Dipinjam'";
+
+    try {
+        st = konek.createStatement();
+        rs = st.executeQuery(query);
+
+        if (rs.next()) {
+            jumlah = rs.getInt("total");
+        }
+
+        rs.close();
+        st.close();
+    } catch (SQLException sQLException) {
+        JOptionPane.showMessageDialog(null, "Data gagal ditampilkan: " + sQLException.getMessage(),
+                "Error", JOptionPane.ERROR_MESSAGE);
+    }
+
+    return jumlah;
+}
+
+    
 
 }

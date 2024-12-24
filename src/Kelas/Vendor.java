@@ -9,6 +9,7 @@ import javax.swing.JOptionPane;
 
 public class Vendor {
 
+    int jumlah = 0;
     String id_vendor, nama_vendor, alamat, nama_cp, no_tlp, email;
 
     private Connection konek;
@@ -209,5 +210,36 @@ public class Vendor {
         }
         return rs;
     }
+
+    public int TampilJumlahVendor() {
+        query = "SELECT COUNT(*) AS jumlah FROM vendor";
+
+        try {
+            st = konek.createStatement();
+            rs = st.executeQuery(query);
+
+            if (rs.next()) {
+                jumlah = rs.getInt("jumlah");
+            }
+
+            rs.close();
+            st.close();
+        } catch (SQLException sQLException) {
+            JOptionPane.showMessageDialog(null, "Data gagal ditampilkan: " + sQLException.getMessage(),
+                    "Error", JOptionPane.ERROR_MESSAGE);
+        }
+
+        return jumlah;
+    }
+    
+    public void setData(String ID, String Nama, String Alamat, String NamaCP, String NoTlp, String Email) {
+    this.id_vendor = ID;
+    this.nama_vendor = Nama;
+    this.alamat = Alamat;
+    this.nama_cp = NamaCP;
+    this.no_tlp = NoTlp;
+    this.email = Email;
+}
+
 
 }
