@@ -194,7 +194,7 @@
             </Component>
             <Component class="javax.swing.JTextField" name="txtJumlah">
               <Events>
-                <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtJumlahKeyTyped"/>
+                <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtJumlahKeyReleased"/>
               </Events>
             </Component>
             <Component class="javax.swing.JComboBox" name="cbStatus">

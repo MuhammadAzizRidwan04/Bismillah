@@ -22,8 +22,7 @@ public class FrameInputPeminjaman extends javax.swing.JFrame {
 
     public FrameInputPeminjaman() {
         initComponents();
-        
-        
+
         loadTable();
         reset();
         setTanggalWaktu();
@@ -215,8 +214,8 @@ public class FrameInputPeminjaman extends javax.swing.JFrame {
         jPanel2.setBackground(javax.swing.UIManager.getDefaults().getColor("Actions.Blue"));
 
         txtJumlah.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                txtJumlahKeyTyped(evt);
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtJumlahKeyReleased(evt);
             }
         });
 
@@ -390,27 +389,52 @@ public class FrameInputPeminjaman extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txtJumlahKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtJumlahKeyTyped
-        try {
-            Barang brg = new Barang();
-            String namaBarang = cbBarang.getSelectedItem().toString();
-
-            int jumlahPinjam = Integer.parseInt(txtJumlah.getText());
-
-            // Validasi stok barang (hanya untuk informasi, tidak mengurangi stok)
-            int stokTersedia = brg.getStokBarang(namaBarang);
-            if (jumlahPinjam > stokTersedia) {
-                JOptionPane.showMessageDialog(this, "Jumlah barang yang dipinjam melebihi stok tersedia!", "Peringatan", JOptionPane.WARNING_MESSAGE);
-                txtJumlah.setText(null);
-                return;
-            }
-        } catch (SQLException sQLException) {
-        } catch (NumberFormatException numberFormatException) {
-        } catch (HeadlessException headlessException) {
-        }
-    }//GEN-LAST:event_txtJumlahKeyTyped
-
     private void btnTambahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTambahActionPerformed
+//        try {
+//            Peminjaman pm = new Peminjaman();
+//            Peminjam p = new Peminjam();
+//            Barang brg = new Barang();
+//            pm.setId_peminjaman(txtIDPeminjaman.getText());
+//            p.setNama(cbPeminjam.getSelectedItem().toString());
+//            brg.setNama_barang(cbBarang.getSelectedItem().toString());
+//            pm.setStatus(cbStatus.getSelectedItem().toString());
+//            pm.setJumlah(Integer.parseInt(txtJumlah.getText()));
+//            pm.setTanggal_pinjam(txtTanggalPinjam.getText());
+//            pm.setTanggal_kembali(txtTanggalKembali.getText());
+//            String namaBarang = cbBarang.getSelectedItem().toString();
+//
+//            int jumlahPinjam = Integer.parseInt(txtJumlah.getText());
+//
+//            // Validasi stok barang (hanya untuk informasi, tidak mengurangi stok)
+//            int stokTersedia = brg.getStokBarang(namaBarang);
+//            if (jumlahPinjam > stokTersedia) {
+//                JOptionPane.showMessageDialog(this, "Jumlah barang yang dipinjam melebihi stok tersedia!", "Peringatan", JOptionPane.WARNING_MESSAGE);
+//                txtJumlah.setText(null);
+//                return;
+//            }
+//            
+//            ResultSet datapeminjam = p.KonversiPeminjam();
+//            ResultSet databarang = brg.KonversiBarang();
+//
+//            if (datapeminjam.next()) {
+//                String isipeminjam = datapeminjam.getString("id_peminjam");
+//                pm.setId_peminjam(isipeminjam);
+//            }
+//            if (databarang.next()) {
+//                String isibarang = databarang.getString("id_barang");
+//                pm.setId_barang(isibarang);
+//            }
+//            pm.tambahPeminjaman();
+//        } catch (SQLException sQLException) {
+//            System.out.println("data tidak masuk");
+//        }
+//        loadTable();
+//        reset();
+//        Main.pConten.removeAll();
+//        Main.pConten.add(new FramePeminjaman());
+//        Main.pConten.repaint();
+//        Main.pConten.revalidate();
+//        dispose();
         try {
             Peminjaman pm = new Peminjaman();
             Peminjam p = new Peminjam();
@@ -426,14 +450,19 @@ public class FrameInputPeminjaman extends javax.swing.JFrame {
 
             int jumlahPinjam = Integer.parseInt(txtJumlah.getText());
 
-            // Validasi stok barang (hanya untuk informasi, tidak mengurangi stok)
-            int stokTersedia = brg.getStokBarang(namaBarang);
-            if (jumlahPinjam > stokTersedia) {
-                JOptionPane.showMessageDialog(this, "Jumlah barang yang dipinjam melebihi stok tersedia!", "Peringatan", JOptionPane.WARNING_MESSAGE);
+            // Dapatkan stok asli barang
+            int stokAsli = brg.getStokBrg(namaBarang);
+
+            // Hitung total barang yang sudah dipinjam
+            int totalDipinjam = brg.getTotalBarangDipinjam(namaBarang);
+
+            // Validasi apakah jumlah barang yang dipinjam akan melebihi stok asli
+            if (totalDipinjam + jumlahPinjam > stokAsli) {
+                JOptionPane.showMessageDialog(this, "Barang sudah mencapai batas stok dan tidak dapat dipinjam lagi!", "Peringatan", JOptionPane.WARNING_MESSAGE);
                 txtJumlah.setText(null);
                 return;
             }
-            
+
             ResultSet datapeminjam = p.KonversiPeminjam();
             ResultSet databarang = brg.KonversiBarang();
 
@@ -445,9 +474,12 @@ public class FrameInputPeminjaman extends javax.swing.JFrame {
                 String isibarang = databarang.getString("id_barang");
                 pm.setId_barang(isibarang);
             }
+
+            // Tambahkan peminjaman
             pm.tambahPeminjaman();
+
         } catch (SQLException sQLException) {
-            System.out.println("data tidak masuk");
+            System.out.println("Data tidak masuk: " + sQLException.getMessage());
         }
         loadTable();
         reset();
@@ -456,6 +488,7 @@ public class FrameInputPeminjaman extends javax.swing.JFrame {
         Main.pConten.repaint();
         Main.pConten.revalidate();
         dispose();
+
 
     }//GEN-LAST:event_btnTambahActionPerformed
 
@@ -475,8 +508,6 @@ public class FrameInputPeminjaman extends javax.swing.JFrame {
 
             int jumlahPinjam = Integer.parseInt(txtJumlah.getText());
 
-            
-            
             ResultSet datapeminjam = p.KonversiPeminjam();
             ResultSet databarang = brg.KonversiBarang();
 
@@ -554,6 +585,50 @@ public class FrameInputPeminjaman extends javax.swing.JFrame {
         dispose();
 
     }//GEN-LAST:event_btnHapusActionPerformed
+
+    private void txtJumlahKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtJumlahKeyReleased
+        try {
+            Barang brg = new Barang();
+            String namaBarang = cbBarang.getSelectedItem().toString();
+
+            // Ambil teks terbaru dari text field
+            String inputJumlah = txtJumlah.getText().trim();
+
+            // Validasi hanya jika input tidak kosong dan berupa angka
+            if (!inputJumlah.isEmpty() && inputJumlah.matches("\\d+")) {
+                int jumlahPinjam = Integer.parseInt(inputJumlah);
+
+                // Ambil jumlah stok barang dari database
+                int stokTersedia = brg.getJumlahBarang(namaBarang);
+
+                // Validasi stok barang
+                if (jumlahPinjam > stokTersedia) {
+                    JOptionPane.showMessageDialog(this,
+                            "Jumlah barang yang dipinjam melebihi stok tersedia!",
+                            "Peringatan",
+                            JOptionPane.WARNING_MESSAGE);
+                    txtJumlah.setText(""); // Reset text field
+                }
+            } else if (!inputJumlah.isEmpty()) {
+                // Jika input bukan angka, reset field dan tampilkan pesan
+                JOptionPane.showMessageDialog(this,
+                        "Input harus berupa angka!",
+                        "Peringatan",
+                        JOptionPane.WARNING_MESSAGE);
+                txtJumlah.setText("");
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this,
+                    "Kesalahan saat memvalidasi stok barang: " + e.getMessage(),
+                    "Kesalahan",
+                    JOptionPane.ERROR_MESSAGE);
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this,
+                    "Input tidak valid: " + e.getMessage(),
+                    "Kesalahan",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_txtJumlahKeyReleased
 
     /**
      * @param args the command line arguments

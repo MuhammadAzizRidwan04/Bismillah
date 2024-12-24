@@ -146,13 +146,14 @@ public class Barang {
                 + "b.jenis AS Jenis, "
                 + "b.jumlah AS Jumlah, "
                 + "CASE "
-                + "    WHEN p.status IS NOT NULL AND p.status = 'Dipinjam' THEN CONCAT('Dipinjam, Jumlah: ', p.jumlah) "
-                + "    ELSE '' "
+                + "    WHEN SUM(p.jumlah) > 0 THEN CONCAT('Dipinjam : ', SUM(p.jumlah)) "
+                + "    ELSE 'Tersedia' "
                 + "END AS Kondisi "
                 + "FROM barang b "
                 + "JOIN vendor v ON b.id_vendor = v.id_vendor "
                 + "JOIN kategori k ON b.id_kategori = k.id_kategori "
-                + "LEFT JOIN peminjaman p ON b.id_barang = p.id_barang AND p.status = 'Dipinjam'";
+                + "LEFT JOIN peminjaman p ON b.id_barang = p.id_barang AND p.status = 'Dipinjam' "
+                + "GROUP BY b.id_barang, b.nama_barang, b.merk, v.nama_vendor, k.nama_kategori, b.status, b.jenis, b.jumlah";
 
         try {
             System.out.println("Query: " + query);
@@ -296,7 +297,7 @@ public class Barang {
         return rs;
     }
 
-    public int getStokBarang(String namaBarang) throws SQLException {
+    public int getJumlahBarang(String namaBarang) throws SQLException {
         query = "SELECT jumlah FROM barang WHERE nama_barang = ?";
         int stok = 0;
 
@@ -440,7 +441,7 @@ public class Barang {
     }
 
     public int TampilJumlahBarang() {
-        int jumlah =0;
+        int jumlah = 0;
         query = "SELECT COUNT(*) AS jumlah FROM barang";
 
         try {
@@ -459,6 +460,36 @@ public class Barang {
         }
 
         return jumlah;
+    }
+
+    public int getStokBrg(String namaBarang) {
+        String query = "SELECT jumlah FROM barang WHERE nama_barang = ?";
+        try (PreparedStatement ps = konek.prepareStatement(query)) {
+            ps.setString(1, namaBarang);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("jumlah");
+            }
+        } catch (SQLException ex) {
+            System.out.println("Gagal mendapatkan stok barang: " + ex.getMessage());
+        }
+        return 0; // Default jika data tidak ditemukan
+    }
+
+    public int getTotalBarangDipinjam(String namaBarang) {
+        String query = "SELECT SUM(jumlah) AS totalDipinjam FROM peminjaman "
+                + "WHERE id_barang = (SELECT id_barang FROM barang WHERE nama_barang = ?) "
+                + "AND status = 'Dipinjam'";
+        try (PreparedStatement ps = konek.prepareStatement(query)) {
+            ps.setString(1, namaBarang);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("totalDipinjam");
+            }
+        } catch (SQLException ex) {
+            System.out.println("Gagal mendapatkan total barang dipinjam: " + ex.getMessage());
+        }
+        return 0; // Default jika data tidak ditemukan
     }
 
 }
