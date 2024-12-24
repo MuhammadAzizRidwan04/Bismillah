@@ -336,20 +336,32 @@ public class FrameInputBarang extends javax.swing.JFrame {
 
     private void btnTambahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTambahActionPerformed
 
-        // btnHapus.setVisible(false);
+       
         try {
             Barang brg = new Barang();
             Vendor ven = new Vendor();
             Kategori kat = new Kategori();
             brg.setId_barang(txtIDBarang.getText());
-            brg.setNama_barang(txtNamaBarang.getText());
+            
+            if (txtNamaBarang.getText().isEmpty()) {
+                brg.setNama_barang(null);
+                JOptionPane.showMessageDialog(null, "Nama Barang Tidak Boleh Kosong");
+            } else {
+                brg.setNama_barang(txtNamaBarang.getText());
+            }
             
             brg.setMerk(txtMerk.getText());
             ven.setNama_vendor(cbVendor.getSelectedItem().toString());
             kat.setNama_kategori(cbKategori.getSelectedItem().toString());
             brg.setStatus(cbStatus.getSelectedItem().toString());
             brg.setJenis(cbJenis.getSelectedItem().toString());
-            brg.setJumlah(Integer.parseInt(txtJumlah.getText()));
+            
+            if (txtJumlah.getText().isEmpty()) {
+                brg.setJumlah(Integer.parseInt(null));
+                JOptionPane.showMessageDialog(null, "Jumlah Barang Tidak Boleh Kosong");
+            } else {
+               brg.setJumlah(Integer.parseInt(txtJumlah.getText()));
+            }
 
             ResultSet datavendor = ven.KonversiVendor();
             ResultSet datakategori = kat.KonversiKategori();

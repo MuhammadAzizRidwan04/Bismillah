@@ -282,6 +282,10 @@ public class FrameInputPeminjaman extends javax.swing.JFrame {
         txtIDPeminjaman.setForeground(javax.swing.UIManager.getDefaults().getColor("Actions.Blue"));
         txtIDPeminjaman.setText("Id Peminjaman");
 
+        txtTanggalPinjam.setEditable(false);
+
+        txtTanggalKembali.setEditable(false);
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(

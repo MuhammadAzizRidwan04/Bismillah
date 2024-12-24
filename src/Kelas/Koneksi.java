@@ -11,10 +11,10 @@ import java.sql.SQLException;
 public class Koneksi {
 //////
     private Connection konekSQL;
-    private String host = "localhost";
-    private String db = "inventarizm";
-    private String user = "root";
-    private String password = "orangsukses";
+    private String host = "37.27.90.134";
+    private String db = "w_16sup";
+    private String user = "w_16pus";
+    private String password = ")bzA4idQj(NPjE4f";
     private String port = "3306";
     private String url = "jdbc:mysql://" + host + ":" + port + "/" + db;
 
