@@ -8,7 +8,7 @@ import java.sql.Statement;
 import javax.swing.JOptionPane;
 
 public class Kategori {
-
+//
     int jumlah = 0;
     String id_kategori, nama_kategori;
 
