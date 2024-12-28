@@ -148,12 +148,6 @@ public class FrameDashboard extends javax.swing.JPanel {
         jLabel9 = new javax.swing.JLabel();
         showDipinjam = new javax.swing.JLabel();
         showBarangSecond1 = new javax.swing.JLabel();
-        showFB = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel10 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel11 = new javax.swing.JLabel();
-        showIG = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(255, 255, 255));
 
@@ -435,38 +429,6 @@ public class FrameDashboard extends javax.swing.JPanel {
             }
         });
 
-        showFB.setBackground(new java.awt.Color(0, 153, 204));
-        showFB.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        showFB.setForeground(new java.awt.Color(0, 153, 204));
-        showFB.setText("Show");
-        showFB.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                showFBMouseClicked(evt);
-            }
-        });
-
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/facebook.png"))); // NOI18N
-
-        jLabel10.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel10.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel10.setText("Facebook");
-
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/instagram (1).png"))); // NOI18N
-
-        jLabel11.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel11.setText("Instagram");
-
-        showIG.setBackground(new java.awt.Color(0, 153, 204));
-        showIG.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        showIG.setForeground(new java.awt.Color(0, 153, 204));
-        showIG.setText("Show");
-        showIG.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                showIGMouseClicked(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -493,36 +455,23 @@ public class FrameDashboard extends javax.swing.JPanel {
                         .addComponent(showDipinjam)
                         .addGap(293, 293, 293)))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(pKategori, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(showKategori)
-                                .addComponent(jLabel3)
-                                .addComponent(pBarangSecond, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel6))
-                            .addComponent(showBarangSecond1))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 87, Short.MAX_VALUE)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(pPeminjam, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(showPeminjam)
-                                .addComponent(jLabel4)
-                                .addComponent(pBarang, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addComponent(showBarang)
-                            .addComponent(jLabel7))
-                        .addGap(123, 123, 123))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
-                            .addComponent(jLabel10)
-                            .addComponent(showFB))
-                        .addGap(133, 133, 133)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(showIG)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel11))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(pKategori, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(showKategori)
+                        .addComponent(jLabel3)
+                        .addComponent(pBarangSecond, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel6))
+                    .addComponent(showBarangSecond1))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 87, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(pPeminjam, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(showPeminjam)
+                        .addComponent(jLabel4)
+                        .addComponent(pBarang, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(showBarang)
+                    .addComponent(jLabel7))
+                .addGap(123, 123, 123))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -558,24 +507,11 @@ public class FrameDashboard extends javax.swing.JPanel {
                     .addComponent(showBarang)
                     .addComponent(showBarangSecond1))
                 .addGap(46, 46, 46)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel9)
-                    .addComponent(jLabel10)
-                    .addComponent(jLabel11))
+                .addComponent(jLabel9)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(pDipinjam, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(showDipinjam))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(showFB))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(showIG)))
+                .addComponent(pDipinjam, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(showDipinjam)
                 .addGap(10, 10, 10))
         );
 
@@ -647,32 +583,8 @@ public class FrameDashboard extends javax.swing.JPanel {
         Main.pConten.revalidate();
     }//GEN-LAST:event_showBarangSecond1MouseClicked
 
-    private void showFBMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_showFBMouseClicked
-       try {
-        // Ganti dengan URL profil Facebook Anda
-        String url = "https://www.facebook.com/profile.php?id=61554125878467&mibextid=5GKqozciEe797PD2";
-        java.awt.Desktop.getDesktop().browse(java.net.URI.create(url));
-    } catch (Exception e) {
-        e.printStackTrace();
-    }
-    }//GEN-LAST:event_showFBMouseClicked
-
-    private void showIGMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_showIGMouseClicked
-        try {
-        // Ganti dengan URL profil Facebook Anda
-        String url = "https://www.instagram.com/azizridwansi23/profilecard/?igsh=YXF6enBqcG95YmVk";
-        java.awt.Desktop.getDesktop().browse(java.net.URI.create(url));
-    } catch (Exception e) {
-        e.printStackTrace();
-    }
-    }//GEN-LAST:event_showIGMouseClicked
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -699,8 +611,6 @@ public class FrameDashboard extends javax.swing.JPanel {
     private javax.swing.JLabel showBarangNew;
     private javax.swing.JLabel showBarangSecond1;
     private javax.swing.JLabel showDipinjam;
-    private javax.swing.JLabel showFB;
-    private javax.swing.JLabel showIG;
     private javax.swing.JLabel showKategori;
     private javax.swing.JLabel showPeminjam;
     private javax.swing.JLabel showVendor;

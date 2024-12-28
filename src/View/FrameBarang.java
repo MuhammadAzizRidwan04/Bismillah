@@ -12,6 +12,8 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 import View.FrameBarang;
+import java.awt.Color;
+import java.awt.Font;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -28,7 +30,7 @@ public class FrameBarang extends javax.swing.JPanel {
     public FrameBarang() {
         initComponents();
         loadTable();
-
+        
         txtcaribarang.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 String keyword = txtcaribarang.getText().trim(); // Ambil teks pencarian
@@ -144,6 +146,8 @@ public class FrameBarang extends javax.swing.JPanel {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        tblBarang.setRowHeight(25);
+        tblBarang.setShowGrid(false);
         tblBarang.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tblBarangMouseClicked(evt);

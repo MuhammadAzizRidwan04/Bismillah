@@ -21,7 +21,7 @@ public class Main extends javax.swing.JFrame {
         initComponents();
         setupTimer();
         updateDateTime();
-            }
+    }
 
     private void updateDateTime() {
         // Membuat format tanggal dan waktu
@@ -50,8 +50,6 @@ public class Main extends javax.swing.JFrame {
             }
         });
         timer.start(); // Mulai timer
-        
-        
 
         Timer colorTimer = new Timer(500, new ActionListener() {
             private boolean isYellow = false; // Status warna
