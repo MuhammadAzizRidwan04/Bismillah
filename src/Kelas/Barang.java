@@ -112,29 +112,7 @@ public class Barang {
         }
     }
 
-//    public ResultSet tampilBarang() {
-//        query = "SELECT "
-//                + "b.id_barang AS ID, "
-//                + "b.nama_barang AS Nama, "
-//                + "b.merk AS Merk, "
-//                + "v.nama_vendor AS Vendor, "
-//                + "k.nama_kategori AS Kategori, "
-//                + "b.status AS Status, "
-//                + "b.jenis AS Jenis, "
-//                + "b.jumlah AS Jumlah "
-//                + "FROM barang b "
-//                + "JOIN vendor v ON b.id_vendor = v.id_vendor "
-//                + "JOIN kategori k ON b.id_kategori = k.id_kategori";
-//        try {
-//            System.out.println("Query: " + query);
-//            st = konek.createStatement();
-//            rs = st.executeQuery(query);
-//        } catch (SQLException sQLException) {
-//            System.out.println(sQLException);
-//
-//        }
-//        return rs;
-//    }
+
     public ResultSet tampilBarang() {
         query = "SELECT "
                 + "b.id_barang AS ID, "
@@ -349,52 +327,101 @@ public class Barang {
         return rs;
     }
 
-    public DefaultTableModel getLaporanBarang() {
-        DefaultTableModel model = new DefaultTableModel();
+//    public DefaultTableModel getLaporanBarang() {
+//        DefaultTableModel model = new DefaultTableModel();
+//
+//        // Menambahkan kolom ke tabel model
+//        model.addColumn("Nama Barang");
+//        model.addColumn("Total Barang");
+//        model.addColumn("Sedang Dipinjam");
+//        model.addColumn("Sisa Barang");
+//
+//        try {
+//            Koneksi koneksi = new Koneksi(); // Membuat instance kelas Koneksi
+//            Connection conn = koneksi.konekDB(); // Memanggil metode konekDB()
+//            String query = """
+//                SELECT 
+//                    b.nama_barang, 
+//                    b.jumlah AS total_barang, 
+//                    COALESCE(SUM(p.jumlah), 0) AS sedang_dipinjam,
+//                    (b.jumlah - COALESCE(SUM(p.jumlah), 0)) AS sisa_barang
+//                FROM 
+//                    barang b
+//                LEFT JOIN 
+//                    peminjaman p ON b.id_barang = p.id_barang AND p.status = 'Dipinjam'
+//                WHERE 
+//                    b.jenis = 'Boleh Dipinjam' -- Filter barang yang jenisnya Boleh Dipinjam
+//                GROUP BY 
+//                    b.id_barang, b.nama_barang, b.jumlah
+//            """;
+//
+//            Statement stmt = conn.createStatement();
+//            ResultSet rs = stmt.executeQuery(query);
+//
+//            while (rs.next()) {
+//                String namaBarang = rs.getString("nama_barang");
+//                int totalBarang = rs.getInt("total_barang");
+//                int sedangDipinjam = rs.getInt("sedang_dipinjam");
+//                int sisaBarang = rs.getInt("sisa_barang");
+//
+//                // Menambahkan data ke model tabel
+//                model.addRow(new Object[]{namaBarang, totalBarang, sedangDipinjam, sisaBarang});
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//
+//        return model;
+//    }
+    public DefaultTableModel getLaporanBarang(String keyword) {
+    DefaultTableModel model = new DefaultTableModel();
 
-        // Menambahkan kolom ke tabel model
-        model.addColumn("Nama Barang");
-        model.addColumn("Total Barang");
-        model.addColumn("Sedang Dipinjam");
-        model.addColumn("Sisa Barang");
+    // Menambahkan kolom ke tabel model
+    model.addColumn("Nama Barang");
+    model.addColumn("Total Barang");
+    model.addColumn("Sedang Dipinjam");
+    model.addColumn("Sisa Barang");
 
-        try {
-            Koneksi koneksi = new Koneksi(); // Membuat instance kelas Koneksi
-            Connection conn = koneksi.konekDB(); // Memanggil metode konekDB()
-            String query = """
-                SELECT 
-                    b.nama_barang, 
-                    b.jumlah AS total_barang, 
-                    COALESCE(SUM(p.jumlah), 0) AS sedang_dipinjam,
-                    (b.jumlah - COALESCE(SUM(p.jumlah), 0)) AS sisa_barang
-                FROM 
-                    barang b
-                LEFT JOIN 
-                    peminjaman p ON b.id_barang = p.id_barang AND p.status = 'Dipinjam'
-                WHERE 
-                    b.jenis = 'Boleh Dipinjam' -- Filter barang yang jenisnya Boleh Dipinjam
-                GROUP BY 
-                    b.id_barang, b.nama_barang, b.jumlah
-            """;
+    try {
+        Koneksi koneksi = new Koneksi(); // Membuat instance kelas Koneksi
+        Connection conn = koneksi.konekDB(); // Memanggil metode konekDB()
+        String query = """
+            SELECT 
+                b.nama_barang, 
+                b.jumlah AS total_barang, 
+                COALESCE(SUM(p.jumlah), 0) AS sedang_dipinjam,
+                (b.jumlah - COALESCE(SUM(p.jumlah), 0)) AS sisa_barang
+            FROM 
+                barang b
+            LEFT JOIN 
+                peminjaman p ON b.id_barang = p.id_barang AND p.status = 'Dipinjam'
+            WHERE 
+                b.jenis = 'Boleh Dipinjam' 
+                AND b.nama_barang LIKE ? -- Tambahkan filter nama barang
+            GROUP BY 
+                b.id_barang, b.nama_barang, b.jumlah
+        """;
 
-            Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery(query);
+        PreparedStatement ps = conn.prepareStatement(query);
+        ps.setString(1, "%" + keyword + "%"); // Gunakan wildcard untuk pencarian
+        ResultSet rs = ps.executeQuery();
 
-            while (rs.next()) {
-                String namaBarang = rs.getString("nama_barang");
-                int totalBarang = rs.getInt("total_barang");
-                int sedangDipinjam = rs.getInt("sedang_dipinjam");
-                int sisaBarang = rs.getInt("sisa_barang");
+        while (rs.next()) {
+            String namaBarang = rs.getString("nama_barang");
+            int totalBarang = rs.getInt("total_barang");
+            int sedangDipinjam = rs.getInt("sedang_dipinjam");
+            int sisaBarang = rs.getInt("sisa_barang");
 
-                // Menambahkan data ke model tabel
-                model.addRow(new Object[]{namaBarang, totalBarang, sedangDipinjam, sisaBarang});
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
+            // Menambahkan data ke model tabel
+            model.addRow(new Object[]{namaBarang, totalBarang, sedangDipinjam, sisaBarang});
         }
-
-        return model;
+    } catch (Exception e) {
+        e.printStackTrace();
     }
+
+    return model;
+}
+
 
     public int TampilJumlahBarangBaru() {
         int jumlah = 0;
