@@ -390,51 +390,7 @@ public class FrameInputPeminjaman extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnTambahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTambahActionPerformed
-//        try {
-//            Peminjaman pm = new Peminjaman();
-//            Peminjam p = new Peminjam();
-//            Barang brg = new Barang();
-//            pm.setId_peminjaman(txtIDPeminjaman.getText());
-//            p.setNama(cbPeminjam.getSelectedItem().toString());
-//            brg.setNama_barang(cbBarang.getSelectedItem().toString());
-//            pm.setStatus(cbStatus.getSelectedItem().toString());
-//            pm.setJumlah(Integer.parseInt(txtJumlah.getText()));
-//            pm.setTanggal_pinjam(txtTanggalPinjam.getText());
-//            pm.setTanggal_kembali(txtTanggalKembali.getText());
-//            String namaBarang = cbBarang.getSelectedItem().toString();
-//
-//            int jumlahPinjam = Integer.parseInt(txtJumlah.getText());
-//
-//            // Validasi stok barang (hanya untuk informasi, tidak mengurangi stok)
-//            int stokTersedia = brg.getStokBarang(namaBarang);
-//            if (jumlahPinjam > stokTersedia) {
-//                JOptionPane.showMessageDialog(this, "Jumlah barang yang dipinjam melebihi stok tersedia!", "Peringatan", JOptionPane.WARNING_MESSAGE);
-//                txtJumlah.setText(null);
-//                return;
-//            }
-//            
-//            ResultSet datapeminjam = p.KonversiPeminjam();
-//            ResultSet databarang = brg.KonversiBarang();
-//
-//            if (datapeminjam.next()) {
-//                String isipeminjam = datapeminjam.getString("id_peminjam");
-//                pm.setId_peminjam(isipeminjam);
-//            }
-//            if (databarang.next()) {
-//                String isibarang = databarang.getString("id_barang");
-//                pm.setId_barang(isibarang);
-//            }
-//            pm.tambahPeminjaman();
-//        } catch (SQLException sQLException) {
-//            System.out.println("data tidak masuk");
-//        }
-//        loadTable();
-//        reset();
-//        Main.pConten.removeAll();
-//        Main.pConten.add(new FramePeminjaman());
-//        Main.pConten.repaint();
-//        Main.pConten.revalidate();
-//        dispose();
+
         try {
             Peminjaman pm = new Peminjaman();
             Peminjam p = new Peminjam();

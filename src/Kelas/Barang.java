@@ -327,52 +327,7 @@ public class Barang {
         return rs;
     }
 
-//    public DefaultTableModel getLaporanBarang() {
-//        DefaultTableModel model = new DefaultTableModel();
-//
-//        // Menambahkan kolom ke tabel model
-//        model.addColumn("Nama Barang");
-//        model.addColumn("Total Barang");
-//        model.addColumn("Sedang Dipinjam");
-//        model.addColumn("Sisa Barang");
-//
-//        try {
-//            Koneksi koneksi = new Koneksi(); // Membuat instance kelas Koneksi
-//            Connection conn = koneksi.konekDB(); // Memanggil metode konekDB()
-//            String query = """
-//                SELECT 
-//                    b.nama_barang, 
-//                    b.jumlah AS total_barang, 
-//                    COALESCE(SUM(p.jumlah), 0) AS sedang_dipinjam,
-//                    (b.jumlah - COALESCE(SUM(p.jumlah), 0)) AS sisa_barang
-//                FROM 
-//                    barang b
-//                LEFT JOIN 
-//                    peminjaman p ON b.id_barang = p.id_barang AND p.status = 'Dipinjam'
-//                WHERE 
-//                    b.jenis = 'Boleh Dipinjam' -- Filter barang yang jenisnya Boleh Dipinjam
-//                GROUP BY 
-//                    b.id_barang, b.nama_barang, b.jumlah
-//            """;
-//
-//            Statement stmt = conn.createStatement();
-//            ResultSet rs = stmt.executeQuery(query);
-//
-//            while (rs.next()) {
-//                String namaBarang = rs.getString("nama_barang");
-//                int totalBarang = rs.getInt("total_barang");
-//                int sedangDipinjam = rs.getInt("sedang_dipinjam");
-//                int sisaBarang = rs.getInt("sisa_barang");
-//
-//                // Menambahkan data ke model tabel
-//                model.addRow(new Object[]{namaBarang, totalBarang, sedangDipinjam, sisaBarang});
-//            }
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//
-//        return model;
-//    }
+
     public DefaultTableModel getLaporanBarang(String keyword) {
     DefaultTableModel model = new DefaultTableModel();
 
@@ -424,70 +379,73 @@ public class Barang {
 
 
     public int TampilJumlahBarangBaru() {
-        int jumlah = 0;
-        String query = "SELECT COUNT(*) AS jumlah FROM barang WHERE status = 'Baru'";
+    int jumlah = 0;
+    String query = "SELECT SUM(jumlah) AS total_jumlah FROM barang WHERE status = 'Baru'";
 
-        try {
-            st = konek.createStatement();
-            rs = st.executeQuery(query);
+    try {
+        st = konek.createStatement();
+        rs = st.executeQuery(query);
 
-            if (rs.next()) {
-                jumlah = rs.getInt("jumlah");
-            }
-
-            rs.close();
-            st.close();
-        } catch (SQLException sQLException) {
-            JOptionPane.showMessageDialog(null, "Data gagal ditampilkan: " + sQLException.getMessage(),
-                    "Error", JOptionPane.ERROR_MESSAGE);
+        if (rs.next()) {
+            jumlah = rs.getInt("total_jumlah");
         }
 
-        return jumlah;
+        rs.close();
+        st.close();
+    } catch (SQLException sQLException) {
+        JOptionPane.showMessageDialog(null, "Data gagal ditampilkan: " + sQLException.getMessage(),
+                "Error", JOptionPane.ERROR_MESSAGE);
     }
+
+    return jumlah;
+}
+
 
     public int TampilJumlahBarangSecond() {
+    String query = "SELECT SUM(jumlah) AS total_jumlah FROM barang WHERE status = 'Bekas'";
+    int jumlah = 0;
 
-        String query = "SELECT COUNT(*) AS jumlah FROM barang WHERE status = 'Bekas'";
-        int jumlah = 0;
-        try {
-            st = konek.createStatement();
-            rs = st.executeQuery(query);
+    try {
+        st = konek.createStatement();
+        rs = st.executeQuery(query);
 
-            if (rs.next()) {
-                jumlah = rs.getInt("jumlah");
-            }
-
-            rs.close();
-            st.close();
-        } catch (SQLException sQLException) {
-            JOptionPane.showMessageDialog(null, "Data gagal ditampilkan: " + sQLException.getMessage(),
-                    "Error", JOptionPane.ERROR_MESSAGE);
+        if (rs.next()) {
+            jumlah = rs.getInt("total_jumlah");
         }
 
-        return jumlah;
+        rs.close();
+        st.close();
+    } catch (SQLException sQLException) {
+        JOptionPane.showMessageDialog(null, "Data gagal ditampilkan: " + sQLException.getMessage(),
+                "Error", JOptionPane.ERROR_MESSAGE);
     }
+
+    return jumlah;
+}
+
 
     public int TampilJumlahBarang() {
-        int jumlah = 0;
-        query = "SELECT COUNT(*) AS jumlah FROM barang";
+    int jumlah = 0;
+    String query = "SELECT SUM(jumlah) AS total_jumlah FROM barang";  // Menggunakan SUM untuk menghitung total kuantitas barang
 
-        try {
-            st = konek.createStatement();
-            rs = st.executeQuery(query);
+    try {
+        st = konek.createStatement();
+        rs = st.executeQuery(query);
 
-            if (rs.next()) {
-                jumlah = rs.getInt("jumlah");
-            }
-
-            rs.close();
-            st.close();
-        } catch (SQLException sQLException) {
-            JOptionPane.showMessageDialog(null, "Data gagal ditampilkan: " + sQLException.getMessage(),
-                    "Error", JOptionPane.ERROR_MESSAGE);
+        if (rs.next()) {
+            jumlah = rs.getInt("total_jumlah");
         }
 
-        return jumlah;
+        rs.close();
+        st.close();
+    } catch (SQLException sQLException) {
+        JOptionPane.showMessageDialog(null, "Data gagal ditampilkan: " + sQLException.getMessage(),
+                "Error", JOptionPane.ERROR_MESSAGE);
     }
+
+    return jumlah;
+}
+
 
     public int getStokBrg(String namaBarang) {
         String query = "SELECT jumlah FROM barang WHERE nama_barang = ?";

@@ -135,7 +135,7 @@ public class Peminjaman {
 
             ps.executeUpdate();
             ps.close();
-            //JOptionPane.showMessageDialog(null, "Data berhasil dihapus");
+            JOptionPane.showMessageDialog(null, "Data berhasil dihapus");
         } catch (SQLException sQLException) {
             JOptionPane.showMessageDialog(null, "Data Gagal Dihapus");
         }

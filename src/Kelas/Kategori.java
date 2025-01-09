@@ -183,7 +183,7 @@ public class Kategori {
             JOptionPane.showMessageDialog(null, "Data gagal ditampilkan: " + sQLException.getMessage(),
                     "Error", JOptionPane.ERROR_MESSAGE);
         }
-
+        
         return jumlah;
     }
 

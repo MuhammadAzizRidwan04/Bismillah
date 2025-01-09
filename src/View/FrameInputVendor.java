@@ -65,15 +65,7 @@ public class FrameInputVendor extends javax.swing.JFrame {
         }
     }
 
-//    public void setData(String ID, String Nama, String Alamat, String NamaCP, String NoTlp, String Email) {
-//        txtIdVendor.setText(ID);
-//        txtNamaVendor.setText(Nama);
-//        txtAlamat.setText(Alamat);
-//        txtNamaCP.setText(NamaCP);
-//        txtNoTlp.setText(NoTlp);
-//        txtEmail.setText(Email);
-//
-//    }
+
     
     public void setDataFromVendor(Vendor vendor) {
     txtIdVendor.setText(vendor.getId_vendor());
